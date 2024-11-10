@@ -158,7 +158,7 @@ The IP contributed and produced by RISC-V International is held under industry a
 
 We encourage organizations, individuals, and enthusiasts to join our ecosystem and together enable a new era of processor innovation through open standard and open source collaboration.
 
-****RISC-V International Membership
+**RISC-V International Membership**
 
 RISC-V is a non-profit membership-based organization that is driven by its members through representative governance on a board of directors, a technical steering committee, and many other working committees.
 
