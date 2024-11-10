@@ -278,3 +278,240 @@ We reflected on how member organizations work together to develop an open source
 We also gave you a primer on how to contribute and make a difference within the RISC-V community.
 
 Feel free to come back to this material if you need a refresher in the future.
+
+**EXPLORING THE RISC-V INSTRUCTION SET ARCHITECTURE**
+
+**Introduction**
+
+**Chapter Overview and Objectives**
+
+It’s time to get technical!
+
+In this chapter, we will go through the heart of RISC-V — the Instruction Set Architecture (ISA). We will unravel the world of RISC-V instruction formats: From R-type to J-type, we will explore these diverse formats that define how instructions are structured. You will gain a basic understanding of how data is processed within the RISC-V architecture.
+
+Going deeper, we will explore the modular nature of RISC-V to learn about its base ISAs and the many options for ISA extensions designed to allow RISC-V to meet the computational demands of the whole spectrum of today’s applications.
+
+Our journey would not be complete without an exploration of the RISC-V register file. These registers serve as the guinea pigs of the architecture, storing data and witnessing its manipulation during program execution. We will decipher the purpose of different registers, shedding light on their roles in the assembly language.
+
+Furthermore, inside the ISA you will discover the core principles that underpin RISC-V. From fixed instruction length to the load/store architecture, these principles are the embodiment of simplicity, efficiency, and compatibility that make RISC-V a groundbreaking technology.
+
+By the end of this chapter, you should be able to:
+
+Recognize the fundamental design principles and basic technical features of the RISC-V instruction set.
+
+Recognize the structure of the different RISC-V instruction types, and the functions of the instructions within each type.
+
+Describe the concept of modularity applied to an instruction set and how RISC-V in particular achieves it.
+
+Identify some common RISC-V extensions and what functionality they add to the basic instruction set.
+
+Discuss privilege modes and the memory model.
+
+Let’s demystify the world of the RISC-V Instruction Set Architecture.
+
+**RISC-V Specification**
+
+**The RISC-V ISA Specification Documents**
+
+The RISC-V ISA was defined while avoiding implementation details as much as possible. It should be read as the software-visible interface to a wide variety of implementations rather than as the design of a particular hardware artifact. However, multiple design decisions were influenced by hardware implementations in the spirit of simplifying the ISA, for example separating the multiplication extension from the base integer ISA.
+
+The RISC-V manual is structured in two volumes: 
+
+The first volume covers the design of the base unprivileged instructions, including optional unprivileged ISA extensions. Unprivileged instructions are those that are generally usable in all privilege modes in all privileged architectures, though behavior might vary depending on privilege mode and privilege architecture. 
+The second volume provides the design of the first privileged architecture.
+
+**RISC-V: A Modular ISA**
+
+Being the fifth generation of a research project that started in 1980, RISC-V is a seasoned architecture designed to succeed where others have failed in the past, learning from their mistakes. For this reason, RISC-V was designed as a modular ISA, as opposed to the traditional incremental ISAs in commercial processors like the ARM Cortex family.
+
+This modularity means that a RISC-V implementation is composed of a mandatory base ISA and a number of ISA extensions so that custom CPUs may be tailored to the needs of the application. Any extension can be used or left out for a specific implementation.
+
+Conversely, an incremental architecture requires an ISA to contain all the ISAs contained in the ISA it extends. For example, the ARM Cortex-M4 instruction set contains all the instructions in the Cortex-M3 instruction set, and in turn, all those in the Cortex-M0+ instruction set. There is no way an ARM Cortex-M4 processor would only contain instructions from the M4 and M0+ instruction sets, skipping the instructions of the M3 instruction set in the middle.
+
+A popular RISC-V core for a number of embedded microcontrollers available today implements the RV32IMAC ISA. Let us discuss what this nomenclature means.
+
+The naming convention for custom RISC-V ISAs consists of the letters RV (for RISC-V) followed by the bit-width, and then a series of 1-letter identifiers for the base ISA and its extensions.
+
+With this in mind, RV32IMAC means:
+
+RV32I: A 32-bit CPU with the Base Integer ISA. This includes the absolutely necessary instructions for basic operation.
+
+M: The Integer Multiplication and Division extension.
+
+A: The Atomic Instruction extension.
+
+C: The Compressed Instruction extension. This extension provides an alternative 16-bit encoding for a special subset of existing RV321 instructions, which are encoded in 32 bits.
+
+In the image below, we have a graphical representation of the unprivileged RV32IMAC instruction set. Notice that the instruction set is showing the modular (not incremental) nature of RISC-V. A mandatory Base ISA is combined with a set of extensions.
+
+![Screenshot 2024-11-10 211717](https://github.com/user-attachments/assets/50327a85-b201-41f0-ada0-af8431ae6cf0)
+
+RV32IMAC Instruction Set
+Retrieved from RISC-V, Wikipedia (author Eduardo Corpeño)
+ 
+Another popular ISA is the RV32IMAFD, often abbreviated as RV32G. The letter G does not represent an ISA extension, but it stands for General.
+
+To learn more about the RISC-V ISA, consider reading the book titled The RISC-V Reader, by David Patterson and Andrew Waterman. The English version is very inexpensive, and the Spanish, Portuguese, Chinese, and Korean translations are free to download.
+
+**RISC-V Instruction Set Architecture Primer**
+
+**Defining an Instruction Set Architecture (ISA)**
+
+An instruction set architecture (ISA) is an abstract model of a computer. It is also referred to as architecture or computer architecture. A realization of an ISA, such as a central processing unit (CPU), is called an implementation. Some ISAs you may have heard of include x86, ARM, MIPS, PowerPC, or SPARC. All of these ISAs require a license to implement them. On the other hand, the RISC-V ISA is provided under open source licenses that do not require fees to use.
+
+**How the RISC-V ISA Is Different**
+
+The most notable difference between RISC-V and other ISAs is that RISC-V is developed by a member organization that is completely free to join and licenses its ISA with permissive open source licenses. This means that anyone can contribute to the specifications, and no one company or group of companies can drive the direction of the standards. The Technical Steering Committee (TSC) provides leadership to our technical initiatives and approves technical deliverables for ratification or release. 
+
+**Collaborative Development Model**
+
+A RISC-V Specification starts its life as a Task Group approved by the Technical Steering Committee (TSC). Once a Task Group has an approved charter, they begin work publicly on GitHub by writing their documents in AsciiDoc format. These repositories on GitHub can only receive pull requests from RISC-V International members, however the work is done publicly and transparently. For groups who choose to take minutes, those minutes from the Task Group meetings are published publicly as well. The public is free to submit issues to the GitHub repository in order to give early feedback on any specification. 
+
+Non-ISA specifications and standards (e.g., processor trace, architectural tests, software overlay) are developed in a similar fashion. RISC-V Specifications live on GitHub and are housed alongside dozens of software projects. A list of ratified specifications and the links to their GitHub repositories can be found on the RISC-V Specifications website. 
+
+**RISC-V Extensions Lifecycle**
+
+Every modular specification of RISC-V goes through a design process, where the maturity of the design is indicated by its status, which may be Open, Frozen, or Ratified.
+
+RISC-V International specifies a procedure to propose an ISA extension that anyone, in principle, can follow. The main steps are summarized as follows:
+
+An extension being developed by its proponent and/or the community at large is referred to as in "Open" status.
+When all the main features of the extension have been developed to the point that no substantial modifications are deemed possible, except for very minimal updates, the extension is referred to as in "Frozen" status.
+A frozen extension is subject to a period of public review for further refinement and to a final ratification-by-vote, after which the extension is referred to as in "Ratified" status.
+To learn about the lifecycle of a RISC-V Specification, you may read the RISC-V Lifecycle Guide.
+
+Each RISC-V extension goes through several stages on its way to ratification. In this section we will briefly review each stage known as a “milestone”. The RISC-V Lifecycle guide defines these milestones as follows.
+
+ ![Screenshot 2024-11-10 214855](https://github.com/user-attachments/assets/b30d7940-5182-4472-87b7-d94b45acb13e)
+
+The Plan Milestone creates two key documents for use throughout the whole lifecycle, the Ratification Plan and the Status Checklist.
+
+The Development Milestone creates the early versions of the specification and declares them reasonably stable.
+
+The Stable Milestone continues specification development until it is self-consistent and stable.
+
+The Freeze Milestone brings the document to feature complete, declares that no substantive changes are planned, and prepares the document for Public Review.
+
+The Ratification-Ready Milestone holds the Public Review, addresses any issues, and performs final activities before asking for TSC Approval and Board of Directors Ratification.
+
+The Ecosystem Development Milestone manages on-going open source software community work across the multitudes of projects which can be impacted by a specification in a continued effort to achieve upstream community support.
+
+Once an extension has been ratified, it is added to either the Unprivileged or Privileged Specification. Occasionally a specification is created as part of a separate document, with the debug specification being the most common example. However, this is a rare case and usually indicates that the extension is not part of the ISA, but rather a “standard” or “non-ISA specification”. We will now review the Unprivileged and Privileged Specification in greater detail.
+
+For full details on this process, refer to the following documents:
+
+The RISC-V Lifecycle Guide details the full traditional procedure to ratify an extension;
+The Fast Track Architecture Extension Process presents a reduced faster version of the procedure for small extensions; and
+The Ratification Policy presents the criteria with which the proposed extension proceeds through the various steps of the ratification process leading to the vote by the Technical Steering Committee (TSC).
+
+**Organizing the Specifications**
+
+The RISC-V ISA is broken up into two parts:
+
+Volume 1, Unprivileged Specification
+Volume 2, Privileged Specification
+
+To understand why the specification is broken up into two different parts, we must first understand a bit about computer architecture and security. Historically, processors used hierarchical protection domains, often called privilege rings, to protect data and code from malicious actors. For illustration purposes, the following picture shows the privilege rings for the x86 processor, by Intel, along with their common uses.
+
+![Screenshot 2024-11-10 215410](https://github.com/user-attachments/assets/c4e788e6-0f4d-4b38-bf79-8a5fbf83a440)
+
+The most privileged code runs in “Ring 0” and has access to the entire system. The processor will decide which privileges to grant executing code based on the privilege level. As an example, accessing memory by physical address may be restricted to “Ring 0” such that other rings must reference the virtual address space. Typically the processor can run in only one of the privilege modes at a time and there are special instructions to move between modes. All of these details can change from system to system, however they must follow the rules set out in the specification documents of a given architecture.
+
+RISC-V has three privilege levels: User Mode (U-mode), Supervisor Mode (S-mode), and Machine Mode (M-mode). One can think of these as “Ring 2”, “Ring 1”, and “Ring 0” respectively. Other modes like a hypervisor mode (H-Mode) are available as variations of these 3 basic modes.
+
+Much like in the figure above, U-mode is for user processes, S-mode is for kernel and/or device drivers, and M-mode is used for bootloader and/or firmware. Each privilege level has access to specific Control and Status Registers (CSRs), which are special registers that report the state of the system, or control its behavior. Higher privilege levels can access the CSRs of less privileged levels.
+
+**Unprivileged Specification**
+
+**Inside the Unprivileged Specification**
+
+Simply put, the unprivileged specification details items that are not related to machine mode (M-Mode) or to Supervisor Mode (S-Mode). The unprivileged specification includes the base Integer (I) ISA as well as extensions to that base, like float (F), double (D), compressed instructions (C), and many more.
+
+The base instruction sets describe the instruction format, basic integer instructions, load & store instructions, and other fundamental details of the ISA. We break the base ISAs into several variants:
+
+RV32I - Integer 32-bit
+
+RV32E - A version of RV32I with fewer registers for embedded applications
+
+RV64I - Integer 64-bit
+
+RV128I - Integer 128-bit
+
+All these Base ISAs either reduce or extend off the RV32I base instruction set. As an example, RV64I widens the integer registers and the supported user address space to 64 bits. This means that the LOAD and STORE instructions work a bit differently than in RV32I and the unprivileged specification contains the chapter explaining these differences.
+
+**The RV32I Base Integer ISA**
+
+With only 40 instructions, the RV32I base integer ISA implements the absolutely necessary operations to achieve basic functionality with 32-bit integers (its 64-bit variant is RV64I). This ISA, encoded in 32-bits, includes instructions for:
+
+Addition
+
+Subtraction
+
+Bitwise logical operations
+
+Load and store
+
+Jumps
+
+Branches
+
+The Base Integer ISA also specifies the 32 CPU registers, which are all 32-bits wide, plus the program counter. The only special register is x0, which always reads 0, as implemented in many previous RISC ISAs.
+
+Although all registers are available for general purpose, the application binary interface (ABI) specifies a purpose for each of them, according to its calling convention. This means that some registers are expected to hold temporary or saved data, pointers, return addresses, and so on.
+
+The RV32I register file, showing the hardware register names and their assigned functionality as specified in the RISC-V application binary interface, is presented in the table below. 
+
+![Screenshot 2024-11-10 223040](https://github.com/user-attachments/assets/5b0c3325-c167-4dd5-a56c-9fa1b38227ef)
+
+**Control and Status Registers (CSRs)**
+
+Control and Status Registers (or CSRs for short), are a separate bank of registers with a separate 12-bit address space, limiting their number to 4096. They usually contain various CPU information, like timers, counters, flags, manufacturer information and other data. 
+
+CSRs are special registers designed to control and monitor the processor's operation. They serve as the mechanism through which software interacts with hardware to adjust settings, manage exceptions, and acquire information about the processor's status. Understanding CSRs is essential for any RISC-V programmer, as they allow precise control over the processor's behavior and enable efficient system programming.
+
+The Zicsr extension contains instructions intended for manipulation of CSRs, such as CSRRW (CSR read and write), CSRRS (CSR read and set), and CSRRC (CSR read and clear). These instructions allow software to read and modify the values in the control and status registers. The CSR instructions are covered in chapter 2.8 of the Unprivileged Specification document.
+
+There are several important Control and Status Registers (CSRs) in the RISC-V architecture, each serving a specific function. Here are a few of the most important CSRs:
+
+1.mstatus (Machine Status Register): This CSR is arguably the most critical one as it controls and monitors the machine's operating mode and privilege level. It contains fields for controlling interrupt enable/disable status, setting the privilege level (M-mode, S-mode, U-mode), and various flags that influence the processor's behavior. It is fundamental for privilege level transitions and interrupt management.
+
+2.mepc (Machine Exception Program Counter): Stores the program counter value of the instruction that caused an exception or interrupt in machine mode. It determines where the program should resume execution after handling the exception.
+
+3.mtvec (Machine Trap-Vector Base Address): Specifies the base address of the trap handler for machine mode, determining where the processor should jump to when an exception occurs.
+
+4.mcause (Machine Cause Register): This CSR provides information about the reason for the most recent exception or interrupt. It distinguishes between exceptions and interrupts and gives a code indicating the specific cause, such as a page fault or a software interrupt.
+
+5.misa (Machine ISA Register): Specifies the supported instruction set extensions for the processor, allowing software to determine the capabilities of the RISC-V processor. It also encodes the bit width of the base ISA (RV32, RV64, or RV128).
+
+These CSRs are fundamental for the operation of a RISC-V processor, enabling privilege mode control, exception handling, and providing information about the processor's capabilities and recent events. There are many more CSRs that serve important functions, these five are among the most critical for basic processor operation and software development.
+
+**Control and Status Registers (CSRs)**
+
+Control and Status Registers (or CSRs for short), are a separate bank of registers with a separate 12-bit address space, limiting their number to 4096. They usually contain various CPU information, like timers, counters, flags, manufacturer information and other data. 
+
+CSRs are special registers designed to control and monitor the processor's operation. They serve as the mechanism through which software interacts with hardware to adjust settings, manage exceptions, and acquire information about the processor's status. Understanding CSRs is essential for any RISC-V programmer, as they allow precise control over the processor's behavior and enable efficient system programming.
+
+The Zicsr extension contains instructions intended for manipulation of CSRs, such as CSRRW (CSR read and write), CSRRS (CSR read and set), and CSRRC (CSR read and clear). These instructions allow software to read and modify the values in the control and status registers. The CSR instructions are covered in chapter 2.8 of the Unprivileged Specification document.
+
+There are several important Control and Status Registers (CSRs) in the RISC-V architecture, each serving a specific function. Here are a few of the most important CSRs:
+
+1.mstatus (Machine Status Register): This CSR is arguably the most critical one as it controls and monitors the machine's operating mode and privilege level. It contains fields for controlling interrupt enable/disable status, setting the privilege level (M-mode, S-mode, U-mode), and various flags that influence the processor's behavior. It is fundamental for privilege level transitions and interrupt management.
+
+2.mepc (Machine Exception Program Counter): Stores the program counter value of the instruction that caused an exception or interrupt in machine mode. It determines where the program should resume execution after handling the exception.
+
+3.mtvec (Machine Trap-Vector Base Address): Specifies the base address of the trap handler for machine mode, determining where the processor should jump to when an exception occurs.
+
+4.mcause (Machine Cause Register): This CSR provides information about the reason for the most recent exception or interrupt. It distinguishes between exceptions and interrupts and gives a code indicating the specific cause, such as a page fault or a software interrupt.
+
+5.misa (Machine ISA Register): Specifies the supported instruction set extensions for the processor, allowing software to determine the capabilities of the RISC-V processor. It also encodes the bit width of the base ISA (RV32, RV64, or RV128).
+
+These CSRs are fundamental for the operation of a RISC-V processor, enabling privilege mode control, exception handling, and providing information about the processor's capabilities and recent events. There are many more CSRs that serve important functions, these five are among the most critical for basic processor operation and software development.
+
+**ISA Extensions**
+
+The unprivileged specification also contains the descriptions of the extensions to these base ISA’s. Again, any extension that does not require M-mode to operate can be described in the unprivileged specification.
+
+Each extension to the base ISA is developed and maintained by a task group.
+
+Once ratified, these extensions are added to the unprivileged specification. Up ahead we will go through a few of the most popular RISC-V ISA extensions.
+
