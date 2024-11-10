@@ -24,7 +24,7 @@ Know how to contribute and make a difference within the RISC-V community.
 
 So, relax, sit back, and allow the layers of RISC-V to unfold before you, revealing an organized ecosystem that is shaping the future of computing.
 
-                                                                                                                 **Exploring RISC-V:**
+**Exploring RISC-V:**
 
 **About RISC-V**
 
@@ -130,7 +130,7 @@ The answer lies in a footnote in the introduction of the ISA spec itself:
 
 The name RISC-V was chosen to represent the fifth major RISC ISA design from UC Berkeley (RISC-I [15], RISC-II [8], SOAR [21], and SPUR [11] were the first four). We also pun on the use of the Roman numeral “V” to signify “variations” and “vectors”, as support for a range of architecture research, including various data-parallel accelerators, is an explicit goal of the ISA design.
 
-                                                                                            **RISC-V International**
+**RISC-V International**
 
 **Introduction to RISC-V International**
 So RISC-V is indeed a community. In fact, it is a global community spanning more than 40 countries and thousands of people. At the heart of this community is its home and guiding force — the RISC-V International Association.
@@ -179,7 +179,7 @@ RISC-V International is governed by its Board of Directors. The Board is compose
 
 RISC-V International also supports and drives ad hoc and standing groups to pursue specific industry, geographic, and strategic interests through a variety of constructs. The aim of RISC-V International is to guide and facilitate the broadest and most effective collaboration for the benefit of their member community.
 
-                                                                                             **The RISC-V Community**
+**The RISC-V Community**
 
 
 **RISC-V Community Working Model**
