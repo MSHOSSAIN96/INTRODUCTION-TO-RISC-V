@@ -132,6 +132,7 @@ The name RISC-V was chosen to represent the fifth major RISC ISA design from UC 
 
 **RISC-V International**
 
+
 **Introduction to RISC-V International**
 So RISC-V is indeed a community. In fact, it is a global community spanning more than 40 countries and thousands of people. At the heart of this community is its home and guiding force — the RISC-V International Association.
 
