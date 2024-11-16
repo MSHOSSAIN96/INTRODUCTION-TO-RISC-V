@@ -828,9 +828,186 @@ Lastly, we briefly described the privilege modes and the memory model.
 
 Feel free to come back to this material if you need a refresher in the future.
 
+**HANDS-ON RISC-V ASSEMBLY LANGUAGE**
 
+**Introduction**
 
+**Chapter Overview and Objectives**
 
+This chapter is all about RISC-V Assembly Language: The nuts and bolts behind making RISC-V systems work. We will dig into the language that connects what we understand with what the machine can execute. It is like learning the behind-the-scenes script that powers your favorite show. We will get acquainted with the RISC-V Assembly Language documentation, its features, and some assembly programming. We will also learn about the many elements in an assembly language program. Among these elements, we have directives, labels, mnemonics, operands, immediates, instructions, and pseudo instructions.
+
+This course is intended for the general public, so our expectations are very basic and there are no hard requirements. You are welcome to try the coding examples in the simulator we will use (or any other of your choice), but you are certainly not required to do so. You may just sit back and enjoy the show.
+
+By the end of this chapter, you should be able to:
+
+Describe the RISC-V assembly language syntax and features.
+
+Identify the many elements of a RISC-V assembly program, like directives, labels, mnemonics, and operands.
+
+Identify the pseudoinstructions in a RISC-V assembly program.
+
+Explain how Control and Status Registers are managed in the RISC-V assembly code.
+
+Use immediate values properly in a RISC-V assembly program.
+
+Get ready to dive into the core of how RISC-V really works!
+
+About Assembly Language
+
+You are about to become acquainted with the RISC-V assembly language syntax. Computers execute programs stored as binary data in memory. This data is encoded as machine code, which the CPU understands. Some examples of RISC-V machine code instructions are 0x000012B7, 0x00028313, 0x00500393, and 0x00000E13. Understandably, machine code is not very human-friendly.
+
+Assembly language is distinct from machine language in that it is a human-readable representation of machine language. All assembly language instructions and pseudoinstructions have an exact translation to their corresponding machine language instructions.
+
+In terms of levels of abstraction, assembly language has the lowest abstraction from a programmer’s perspective. Even lower levels are found in machine code, logic states stored in memory, and electrical signals traversing the hardware. Nevertheless, programmers usually start at assembly language as the lowest level of abstraction in computer programming. 
+
+Assembly code is at a lower level of abstraction with respect to high level programming languages like C or Python. Although most of the code is usually written in a high level language, sometimes one has no choice but to code directly in assembly language.
+
+**Features**
+
+The RISC-V assembly language has a number of features that go hand in hand with the features of the RISC-V ISA. Among other features, we have the following:
+
+1.The language was designed with simplicity in mind.
+
+2.In general, binary operations like addition, AND, XOR, multiplication, and so on, specify 3 operands: 2 source registers with read access, and 1 result register with write access.
+
+3.Support of pseudoinstructions to ease the task of writing assembly code.
+
+4.Direct translation between assembly language and machine language.
+
+**How the RISC-V Assembly Language Works**
+
+The syntax of the RISC-V assembly language can vary depending on the specific variant or extension of the architecture and the assembler being used (the program that reads a text file with assembly code, and produces machine code).
+
+**RISC-V Assembly Language Elements**
+
+**Instructions**
+
+A set of basic operations, such as arithmetic, load/store, and control flow, that are executed by the processor. In general, instructions consist of a mnemonic (a short but descriptive instruction name) and a series of operands (the registers or data to operate upon).
+
+**Registers**
+
+Processor-internal memory locations used to store intermediate results and control information.
+
+**Labels**
+
+Symbolic names for memory locations that can be used as targets for branch and jump instructions.
+
+**Directives**
+
+Special commands used to control the behavior of the assembler, such as setting memory regions or defining constants.
+
+**Macros**
+
+User-defined sequences of instructions that can be invoked with a single macro call.
+
+**Pseudoinstructions**
+
+Synthetic instructions that are translated by the assembler into one or more real instructions, allowing for a higher-level, more concise representation of the code.
+
+These elements are combined to create RISC-V assembly programs, which are then assembled into machine code and executed by the processor.
+
+**Assembly Language Syntax**
+
+The RISC-V assembly language syntax follows the typical assembly language rules of other processors, supporting basic elements like instructions and labels, as well as directives and means to specify storage requirements.
+
+In general, an assembly source file consists of a series of blocks of code, each specifying its memory section and storage requirements.
+
+Up ahead, we will see what all the parts of an assembly program mean. For now, let’s skim through a Hello World example featured in the book The RISC-V Reader. It contains a block of executable code in the text section and a block of data with two strings in the read-only data section.
+
+  .text                     # Directive: enter text section
+  .align 2                  # Directive: align code to 2^2 bytes
+  .globl main               # Directive: declare global symbol main
+
+main:                       # label for start of main
+  addi sp,sp,-16            # allocate stack frame
+  sw ra,12(sp)              # save return address
+  lui a0,%hi(string1)       # compute address of
+  addi a0,a0,%lo(string1)   # string1
+  lui a1,%hi(string2)       # compute address of
+  addi a1,a1,%lo(string2)   # string2
+  call printf               # call function printf
+  lw ra,12(sp)              # restore return address
+  addi sp,sp,16             # deallocate stack frame
+  li a0,0                   # load return value 0
+  ret                       # return
+
+  .section .rodata          # Directive: enter read-only data section
+  .balign 4                 # Directive: align data section to 4 bytes
+
+string1:                    # label for first string
+  .string "Hello, %s!\n"    # Directive: null-terminated string
+
+string2:                    # label for second string
+  .string "world"           # Directive: null-terminated string
+
+**Assembler Directives**
+
+RISC-V assembler directives are non-CPU instructions that provide information to the assembler (the program that produces machine code from a text file), but are not executed as machine instructions. They control the assembly process, specify data locations and provide information to linkers. 
+
+**Common RISC-V Assembler Directives**
+
+.align
+Aligns the location counter to a specified power of 2 boundary.
+
+.section
+Specifies the section of the output file where the following data should be placed.
+
+.byte
+Defines an array of 8-bit values.
+
+.half
+Defines an array of 16-bit values.
+
+.word
+Defines an array of 32-bit values.
+
+.data
+Specifies the start of the data section where initialized data is stored.
+
+.text
+Specifies the start of the code section where instructions are stored.
+
+.globl
+Declares a symbol as global and accessible from other files.
+
+.equ
+Assigns a value to a symbol, useful for constants.
+
+.string
+Defines a string of ASCII characters with a null terminator.
+
+These are some of the most popular RISC-V assembler directives, but there are many more. Consult the RISC-V ISA manual or the specific assembler documentation for a complete list.
+
+**Reminder: The RISC-V Instruction Set**
+
+This is a good time for a reminder:
+
+Since we are about to see a few coding examples, it’s a good idea to have “The RISC-V Instruction Set Manual Volume I: Unprivileged ISA” handy in case you need to review some of the instructions in the code.
+
+Also remember to have a quick reference document handy. Here are the links to the documents we recommended earlier:
+
+A RISC-V Reference Card, by James Zhu
+The RISC-V reference card included in The RISC-V Reader
+
+**A Quick Review of the RISC-V Assembly Instruction Set**
+
+Please have your RISC-V quick reference document handy to read more about some instructions we have selected and detailed in the following list. The list is not exhaustive, but attempts to represent most types of instructions, and it provides some important details we think you should know. 
+
+The purpose of this exercise is to get you acquainted with the instruction set from an assembly language programmer’s standpoint, so that you may go back to your quick reference document whenever you need to learn more about a specific instruction. Keep in mind that your quick reference document may or may not have organized the instructions by their base ISA or ISA extension.
+
+All of the following assembly language instructions have a corresponding RISC-V machine language instruction. In other words, these are not pseudoinstructions.
+
+![Screenshot 2024-11-16 160838](https://github.com/user-attachments/assets/8600850d-7eee-49b5-8319-5fdb03ecb1e5)
+
+**A Quick Review of RISC-V Pseudoinstructions**
+
+Once again, have your RISC-V quick reference document handy to read more about some pseudoinstructions we have selected and detailed in the following list. 
+
+A pseudoinstruction is a valid instruction in assembly language, which does not have a machine encoding but translates to one or more RISC-V machine instructions that end up performing its function.
+
+In the following list we will showcase some pseudoinstructions and their usual implementation.
+
+![Screenshot 2024-11-16 161002](https://github.com/user-attachments/assets/d94fe641-adbe-4f93-afa8-a88d79813c71)
 
 
 
